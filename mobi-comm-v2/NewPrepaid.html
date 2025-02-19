@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>New_Prepaid</title>
+    <link rel="icon" href="./Mobi-icon.png" type="image/png">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --primary-blue: #5680E9;
+            --light-blue: #84CEEB;
+            --medium-blue: #5AB9EA;
+            --lavender: #C1C8E4;
+            --purple: #8860D0;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--lavender) 0%, var(--medium-blue) 100%);
+            font-family: 'Poppins', sans-serif;
+            position: relative;
+            min-height: 100vh;
+        }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%235680E9" fill-opacity="0.05" d="M0,160L48,144C96,128,192,96,288,85.3C384,75,480,85,576,117.3C672,149,768,203,864,218.7C960,235,1056,213,1152,202.7C1248,192,1344,192,1392,192L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom; */
+            background-size: cover;
+            z-index: -1;
+        }
+    
+        .floating-shape {
+            position: absolute;
+            opacity: 0.2;
+            z-index: -1;
+            filter: blur(4px);
+            animation: float 8s ease-in-out infinite;
+        }
+        
+        .shape1 {
+            top: 15%;
+            left: 5%;
+            width: 80px;
+            height: 80px;
+            background-color: var(--primary-blue);
+            border-radius: 50%;
+            animation-delay: 0s;
+        }
+        
+        .shape2 {
+            top: 25%;
+            right: 10%;
+            width: 120px;
+            height: 120px;
+            background-color: var(--light-blue);
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            animation-delay: 1s;
+        }
+        
+        .shape3 {
+            bottom: 20%;
+            left: 10%;
+            width: 70px;
+            height: 70px;
+            background-color: var(--purple);
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            animation-delay: 2s;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-15px) rotate(5deg);
+            }
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+        }
+        .floating-feedback {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: var(--accent);
+            color: white;
+            border-radius: 30px;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            background-color:coral;
+        }
+
+        .floating-feedback:hover {
+            transform: translateY(-3px);
+        }
+        header {
+            padding: 15px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        nav {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(136, 96, 208, 0.2);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        nav:hover {
+            box-shadow: 0 8px 25px rgba(136, 96, 208, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .nav-link {
+            color: var(--primary-blue);
+            font-weight: 500;
+            margin: 0 5px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--purple);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: var(--purple);
+            transform: translateY(-2px);
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .navbar-brand {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-brand img {
+            height: 50px;
+            transition: transform 0.3s ease;
+        }
+        
+        .navbar-brand:hover img {
+            transform: scale(1.05) rotate(5deg);
+        }
+        
+        .dropdown-menu {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(136, 96, 208, 0.2);
+        }
+        
+        .dropdown-item {
+            color: var(--primary-blue);
+            transition: all 0.3s ease;
+        }
+        
+        .dropdown-item:hover {
+            background-color: var(--lavender);
+            color: var(--purple);
+            transform: translateX(5px);
+        }
+        
+        .nav-link i {
+            transition: transform 0.3s ease;
+        }
+        
+        .nav-link:hover i {
+            transform: scale(1.2);
+        }
+        
+        h1 {
+            text-align: center;
+            color: var(--purple);
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(136, 96, 208, 0.2);
+            margin-bottom: 30px;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+        
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(to right, var(--light-blue), var(--purple));
+            border-radius: 5px;
+        }
+        
+        .container1 {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(136, 96, 208, 0.2);
+            max-width: 500px;
+            margin: 50px auto;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            animation: fadeInUp 1s ease-out;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .container1:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(136, 96, 208, 0.3);
+        }
+        
+        .container1::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(136, 96, 208, 0.1), transparent);
+            transform: rotate(45deg);
+        }
+        
+        @keyframes shine {
+            0% {
+                top: -50%;
+                left: -50%;
+            }
+            100% {
+                top: 50%;
+                left: 50%;
+            }
+        }
+        
+        .container1 h2 {
+            color: var(--primary-blue);
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+        
+        .container1 form {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .container1 label {
+            margin-bottom: 8px;
+            color: var(--primary-blue);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .container1 label i {
+            margin-right: 10px;
+            color: var(--purple);
+            transition: all 0.3s ease;
+        }
+        
+        .container1 input,
+        .container1 select,
+        .container1 textarea {
+            padding: 12px 15px;
+            border: 2px solid var(--lavender);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            width: 100%;
+            font-size: 15px;
+            background-color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .container1 input:focus,
+        .container1 select:focus,
+        .container1 textarea:focus {
+            border-color: var(--purple);
+            box-shadow: 0 0 0 3px rgba(136, 96, 208, 0.2);
+            outline: none;
+        }
+        
+        .container1 input:focus + label i,
+        .container1 select:focus + label i,
+        .container1 textarea:focus + label i {
+            transform: scale(1.2);
+            color: var(--primary-blue);
+        }
+        
+        .container1 .text-danger {
+            font-size: 12px;
+            display: block;
+            margin-top: 5px;
+            color: #ff6b6b;
+            animation: shake 0.5s ease-in-out;
+        }
+        
+        @keyframes shake {
+            0%, 100% {transform: translateX(0);}
+            10%, 30%, 50%, 70%, 90% {transform: translateX(-5px);}
+            20%, 40%, 60%, 80% {transform: translateX(5px);}
+        }
+        
+        .container1 button {
+            background: linear-gradient(45deg, var(--primary-blue), var(--purple));
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(136, 96, 208, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            margin-top: 10px;
+        }
+        
+        .container1 button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--purple), var(--primary-blue));
+            transition: all 0.5s ease;
+            z-index: -1;
+        }
+        
+        .container1 button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(136, 96, 208, 0.4);
+        }
+        
+        .container1 button:hover::before {
+            left: 0;
+        }
+        
+        .container1 button:active {
+            transform: translateY(0);
+            box-shadow: 0 3px 10px rgba(136, 96, 208, 0.3);
+        }
+        
+        /* Success Message Styles */
+        .success-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .success-message.active {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+        
+        .success-message i {
+            font-size: 60px;
+            color: #2ecc71;
+            margin-bottom: 20px;
+        }
+        
+        .success-message h2 {
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+        }
+        
+        .success-message p {
+            color: #666;
+            margin-bottom: 25px;
+        }
+        
+        .success-message button {
+            background: linear-gradient(45deg, var(--primary-blue), var(--purple));
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .success-message button:hover {
+            background: linear-gradient(45deg, var(--purple), var(--primary-blue));
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+        
+        .overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        /* Footer Styles */
+        footer {
+            background: linear-gradient(45deg, var(--primary-blue), var(--purple));
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+            margin-top: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background: linear-gradient(90deg, var(--light-blue), var(--medium-blue), var(--purple));
+        }
+        
+        footer h5 {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+        
+        footer h5::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 2px;
+            background-color: var(--light-blue);
+        }
+        
+        footer p {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        footer i {
+            margin-right: 10px;
+            color: var(--lavender);
+        }
+        
+        footer .social-icons {
+            margin-top: 20px;
+        }
+        
+        footer .social-icons a {
+            color: white;
+            margin: 0 10px;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        footer .social-icons a:hover {
+            color: var(--light-blue);
+            transform: translateY(-3px);
+        }
+        
+        footer .copyright {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        .fadeIn {
+            animation: fadeIn 1s ease-out;
+        }
+        
+        
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .container1 {
+                margin: 30px 15px;
+                padding: 25px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .shape1, .shape2, .shape3 {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="floating-shape shape1"></div>
+    <div class="floating-shape shape2"></div>
+    <div class="floating-shape shape3"></div>
+
+    <header class="fadeIn">
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="container">
+                <a class="navbar-brand" href="MobilePrepaid.html">
+                    <img src="./Mobi-icon-1.png" alt="Mobi-comm Logo" title="Mobi-comm">
+                    <span style="font-size: 14px; color: #5680E9; font-weight: 600;">mobi-comm</span>
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="Recharge.html">
+                                <i class="bi bi-credit-card"></i> Recharge
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="View_Plans.html">
+                                <i class="bi bi-grid-3x3-gap"></i> View Plans
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="NewPrepaid.html">
+                                <i class="bi bi-sim"></i> New Prepaid
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="supportDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-headset"></i> Support
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="supportDropdown">
+                                <li><a class="dropdown-item" href="FAQs.html"><i class="bi bi-question-circle me-2"></i>FAQs</a></li>
+                                <li><a class="dropdown-item" href="Feedback.html"><i class="bi bi-chat-text me-2"></i>Feedback</a></li>
+                                <li><a class="dropdown-item" href="#Contact"><i class="bi bi-telephone me-2"></i>Contact</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <a class="nav-link d-flex flex-column align-items-center" href="account.html">
+                    <i class="bi bi-person-circle" style="font-size: 24px; color: #8860D0;"></i>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+   
+
+    <!-- Success Message -->
+    <div class="overlay" id="overlay"></div>
+    <div class="success-message" id="successMessage">
+        <i class="bi bi-check-circle-fill"></i>
+        <h2>Application Successful!</h2>
+        <p>Your prepaid SIM request has been submitted successfully. We'll deliver it to your provided address shortly.</p>
+        <button id="successBtn">Continue</button>
+    </div>
+
+    <!-- New Prepaid Sim -->
+    <div class="container1 animate__animated animate__fadeInUp">
+        <h1>Prepaid SIM Registration</h1>
+        <form id="simForm" onsubmit="return validateForm(event)">
+            <div class="form-group">
+                <label for="name"><i class="bi bi-person"></i> Full Name</label>
+                <input type="text" id="name" name="name" placeholder="Enter your full name">
+                <small id="nameError" class="text-danger"></small>
+            </div>
+            
+            <div class="form-group">
+                <label for="number"><i class="bi bi-telephone"></i> Phone Number</label>
+                <input type="tel" id="number" name="number" pattern="[0-9]{10}" placeholder="Enter 10-digit number">
+                <small id="numberError" class="text-danger"></small>
+            </div>
+            
+            <div class="form-group">
+                <label for="email"><i class="bi bi-envelope"></i> Email Address</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email address">
+                <small id="emailError" class="text-danger"></small>
+            </div>
+            
+            <div class="form-group">
+                <label for="address"><i class="bi bi-geo-alt"></i> SIM Delivery Address</label>
+                <textarea id="address" name="address" rows="3" placeholder="Enter your complete address"></textarea>
+                <small id="addressError" class="text-danger"></small>
+            </div>
+            
+            <div class="form-group">
+                <label for="id-proof"><i class="bi bi-card-image"></i> ID Proof Type</label>
+                <select id="id-proof" name="id-proof">
+                    <option value="">Select ID Proof</option>
+                    <option value="aadhar">Aadhar Card</option>
+                    <option value="pan">PAN Card</option>
+                    <option value="passport">Passport</option>
+                    <option value="voter">Voter ID</option>
+                </select>
+                <small id="idProofError" class="text-danger"></small>
+            </div>
+            
+            <div class="form-group">
+                <label for="id-number"><i class="bi bi-upc-scan"></i> ID Number</label>
+                <input type="text" id="id-number" name="id-number" placeholder="Enter your ID number">
+                <small id="idNumberError" class="text-danger"></small>
+            </div>
+            
+            <button type="submit" class="pulse">Submit Application</button>
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <footer id="Contact" class="animate__animated animate__fadeIn">
+        <div class="container">
+            <h5>Contact Us</h5>
+            <p><i class="bi bi-telephone-fill"></i> Phone: +91 98765 43210</p>
+            <p><i class="bi bi-envelope-fill"></i> Email: support@mobi-comm.com</p>
+            <p><i class="bi bi-geo-alt-fill"></i> Address: 123, Mobi Street, TN, India</p>
+            
+            <div class="social-icons">
+                <a href="#"><i class="bi bi-facebook"></i></a>
+                <a href="#"><i class="bi bi-twitter"></i></a>
+                <a href="#"><i class="bi bi-instagram"></i></a>
+                <a href="#"><i class="bi bi-linkedin"></i></a>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 Mobi-comm. All rights reserved</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Script to validate form -->
+    <script>
+        function validateForm(event) {
+            event.preventDefault(); // Prevent form submission
+            
+            var name = document.getElementById("name").value;
+            var number = document.getElementById("number").value;
+            var email = document.getElementById("email").value;
+            var address = document.getElementById("address").value;
+            var idProof = document.getElementById("id-proof").value;
+            var idNumber = document.getElementById("id-number").value;
+            
+            var phonePattern = /^[0-9]{10}$/;
+            var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            var isValid = true;
+
+            // Clear previous errors
+            document.getElementById("nameError").innerText = "";
+            document.getElementById("numberError").innerText = "";
+            document.getElementById("emailError").innerText = "";
+            document.getElementById("addressError").innerText = "";
+            document.getElementById("idProofError").innerText = "";
+            document.getElementById("idNumberError").innerText = "";
+
+            if (name.trim() === "") {
+                document.getElementById("nameError").innerText = "Full Name is required";
+                isValid = false;
+            }
+            
+            if (!phonePattern.test(number)) {
+                document.getElementById("numberError").innerText = "Enter a valid 10-digit phone number";
+                isValid = false;
+            }
+            
+            if (!emailPattern.test(email)) {
+                document.getElementById("emailError").innerText = "Enter a valid email address";
+                isValid = false;
+            }
+            
+            if (address.trim() === "") {
+                document.getElementById("addressError").innerText = "SIM Delivery Address is required";
+                isValid = false;
+            }
+            
+            if (idProof === "") {
+                document.getElementById("idProofError").innerText = "Please select an ID proof type";
+                isValid = false;
+            }
+            
+            if (idNumber.trim() === "") {
+                document.getElementById("idNumberError").innerText = "ID Number is required";
+                isValid = false;
+            }
+            
+            // If valid, show loader and success message
+            if (isValid) {
+                // Show loader
+                document.getElementById("loader").style.display = "flex";
+                
+                // Simulate processing time
+                setTimeout(function() {
+                    document.getElementById("loader").style.display = "none";
+                    document.getElementById("overlay").classList.add("active");
+                    document.getElementById("successMessage").classList.add("active");
+                }, 2000);
+            }
+            
+            return isValid;
+        }
+        
+        // Success button click handler
+        document.getElementById("successBtn").addEventListener("click", function() {
+            document.getElementById("overlay").classList.remove("active");
+            document.getElementById("successMessage").classList.remove("active");
+            window.location.href = "MobilePrepaid.html";
+        });
+        
+        // Add animation on scroll
+        document.addEventListener("DOMContentLoaded", function() {
+            // Animate elements on scroll
+            const animateElements = document.querySelectorAll('.animate__animated');
+            
+            function checkIfInView() {
+                animateElements.forEach(element => {
+                    const elementTop = element.getBoundingClientRect().top;
+                    const elementVisible = 150;
+                    
+                    if (elementTop < window.innerHeight - elementVisible) {
+                        if (element.classList.contains('animate__fadeIn')) {
+                            element.classList.add('animate__fadeIn');
+                        } else if (element.classList.contains('animate__fadeInUp')) {
+                            element.classList.add('animate__fadeInUp');
+                        }
+                    }
+                });
+            }
+            
+            window.addEventListener('scroll', checkIfInView);
+            checkIfInView();
+            
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute("href").substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({ behavior: "smooth" });
+                    }
+                });
+            });
+            
+            // Input animations
+            const inputs = document.querySelectorAll('input, textarea, select');
+            
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    const label = this.previousElementSibling;
+                    label.style.color = '#8860D0';
+                    label.querySelector('i').style.transform = 'scale(1.2)';
+                });
+                
+                input.addEventListener('blur', function() {
+                    const label = this.previousElementSibling;
+                    if (this.value === '') {
+                        label.style.color = '#5680E9';
+                        label.querySelector('i').style.transform = 'scale(1)';
+                    }
+                });
+            });
+            
+            // Form highlight effect
+            const form = document.getElementById('simForm');
+            form.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.01)';
+            });
+            
+            form.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+
+    <!-- Additional Animation Script -->
+    <script>
+        // Create and animate additional floating shapes
+        function createFloatingShapes() {
+            const colors = ['#5680E9', '#84CEEB', '#5AB9EA', '#C1C8E4', '#8860D0'];
+            const body = document.querySelector('body');
+            
+            for (let i = 0; i < 10; i++) {
+                const shape = document.createElement('div');
+                const size = Math.random() * 60 + 20;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                
+                shape.className = 'floating-shape';
+                shape.style.width = `${size}px`;
+                shape.style.height = `${size}px`;
+                shape.style.backgroundColor = color;
+                shape.style.borderRadius = `${Math.random() * 50}% ${Math.random() * 50}% ${Math.random() * 50}% ${Math.random() * 50}%`;
+                shape.style.top = `${Math.random() * 100}%`;
+                shape.style.left = `${Math.random() * 100}%`;
+                shape.style.opacity = '0.1';
+                shape.style.animationDuration = `${Math.random() * 10 + 5}s`;
+                shape.style.animationDelay = `${Math.random() * 5}s`;
+                
+                body.appendChild(shape);
+            }
+        }
+        
+        // Run the function on page load
+        document.addEventListener('DOMContentLoaded', createFloatingShapes);
+        
+        // Navigation animation
+        const navLinks = document.querySelectorAll('.nav-link');
+        
+        navLinks.forEach(link => {
+            link.addEventListener('mouseenter', function() {
+                this.classList.add('animate__animated', 'animate__pulse');
+            });
+            
+            link.addEventListener('animationend', function() {
+                this.classList.remove('animate__animated', 'animate__pulse');
+            });
+        });
+        
+        // Button animation on hover
+        document.querySelector('.container1 button').addEventListener('mouseover', function() {
+            this.classList.add('animate__animated', 'animate__heartBeat');
+        });
+        
+        document.querySelector('.container1 button').addEventListener('animationend', function() {
+            this.classList.remove('animate__animated', 'animate__heartBeat');
+        });
+    </script>
+    <div class="floating-feedback" onclick="window.location.href='Feedback.html'">
+<i class="bi bi-chat-dots"></i>
+Share Feedback
+</div>
+</body>
+
+</html>

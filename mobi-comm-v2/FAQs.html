@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>FAQs - Mobi-comm</title>
+    <link rel="icon" href="./Mobi-icon.png" type="image/png">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        /* Using colors from the image: #5680E9, #84CEEB, #5AB9EA, #C1C8E4, #8860D0 */
+        body {
+            background: linear-gradient(135deg, #C1C8E4, #84CEEB);
+            font-family: "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #5680E9;
+            text-align: center;
+            padding: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            background-color: #5680E9;
+            padding: 10px 0;
+        }
+
+        .nav-link {
+            color: #fff;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin: 0 10px;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: #C1C8E4;
+            transform: translateY(-2px);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            background-color: #C1C8E4;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .navbar-brand img {
+            height: 50px;
+            transition: transform 0.3s ease;
+        }
+
+        .navbar-brand:hover img {
+            transform: scale(1.1);
+        }
+
+        .navbar-brand span {
+            font-size: 14px;
+            color: #fff;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-left: 5px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        footer {
+            background-color: #8860D0;
+            padding: 30px 0;
+            text-align: center;
+            margin-top: 50px;
+            color: #FFFFFF;
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #5680E9, #84CEEB, #5AB9EA, #C1C8E4, #8860D0);
+            animation: gradientFlow 3s linear infinite;
+        }
+
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        footer h5 {
+            color: #FFFFFF;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+
+        footer h5::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 2px;
+            bottom: -10px;
+            left: 25%;
+            background-color: #C1C8E4;
+            border-radius: 2px;
+        }
+
+        footer p {
+            color: #FFFFFF;
+            margin: 10px 0;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        footer i {
+            margin-right: 10px;
+            font-size: 18px;
+            color: #C1C8E4;
+        }
+
+        .container1 {
+            max-width: 800px;
+            margin: 50px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(136, 96, 208, 0.3);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .container1::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #5680E9, #84CEEB, #5AB9EA);
+            z-index: 2;
+        }
+
+        h1 {
+            text-align: center;
+            color: #5680E9;
+            font-weight: 700;
+            margin-bottom: 30px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 3px;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #8860D0;
+            border-radius: 3px;
+        }
+
+        .faq {
+            margin-top: 30px;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid #C1C8E4;
+            padding: 15px 0;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            transform: translateX(5px);
+        }
+
+        .faq-question {
+            font-weight: 600;
+            cursor: pointer;
+            color: #5AB9EA;
+            font-size: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background-color: rgba(193, 200, 228, 0.2);
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 22px;
+            color: #8860D0;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-question.active::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            display: none;
+            padding: 15px;
+            color: #555;
+            background-color: rgba(132, 206, 235, 0.1);
+            border-radius: 8px;
+            margin-top: 10px;
+            line-height: 1.6;
+            position: relative;
+            border-left: 3px solid #5AB9EA;
+        }
+
+        .dropdown-menu {
+            background-color: #5680E9;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            padding: 10px;
+        }
+
+        .dropdown-item {
+            color: #fff;
+            transition: all 0.3s ease;
+            padding: 8px 15px;
+            border-radius: 5px;
+        }
+
+        .dropdown-item:hover {
+            background-color: #8860D0;
+            color: #fff;
+            transform: translateX(5px);
+        }
+
+        .nav-icon {
+            font-size: 24px;
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+
+        .nav-icon:hover {
+            color: #C1C8E4;
+            transform: scale(1.2);
+        }
+
+        @media (max-width: 768px) {
+            .container1 {
+                margin: 30px 15px;
+                padding: 20px;
+            }
+            
+            .navbar-brand img {
+                height: 40px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .faq-question {
+                font-size: 16px;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #C1C8E4;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #8860D0;
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5680E9;
+        }
+
+        /* Animation for FAQ answers */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .faq-answer.show {
+            display: block;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        /* Floating Particles Background */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+            }
+        }
+        .floating-feedback {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: var(--accent);
+            color: white;
+            border-radius: 30px;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            background-color:coral;
+        }
+
+        .floating-feedback:hover {
+            transform: translateY(-3px);
+        }
+       
+    </style>
+</head>
+<body>
+    <!-- Particle Background -->
+    <div class="particles" id="particles"></div>
+
+    <header>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand" href="MobilePrepaid.html">
+                    <img src="./Mobi-icon-1.png" alt="Mobi-comm Logo" title="Mobi-comm">
+                    <span>mobi-comm</span>
+                </a>
+
+                <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item"><a class="nav-link" href="Recharge.html">Recharge</a></li>
+                        <li class="nav-item"><a class="nav-link" href="View_Plans.html">View Plans</a></li>
+                        <li class="nav-item"><a class="nav-link" href="NewPrepaid.html">New Prepaid</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="supportDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">Support</a>
+                            <ul class="dropdown-menu" aria-labelledby="supportDropdown">
+                                <li><a class="dropdown-item" href="FAQs.html">FAQs</a></li>
+                                <li><a class="dropdown-item" href="Feedback.html">Feedback</a></li>
+                                <li><a class="dropdown-item" href="#Contact">Contact</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <a class="nav-link d-flex flex-column align-items-center" href="account.html">
+                    <i class="bi bi-person-circle nav-icon"></i>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container1">
+        <h1>Frequently Asked Questions</h1>
+        <div class="faq">
+            <div class="faq-item">
+                <div class="faq-question">How do I register on the app?</div>
+                <div class="faq-answer">Go to the Account page and click on 'Mobile'. Enter your Mobile Number and get OTP to create an account. Follow the simple on-screen instructions to complete your registration. Make sure to use a valid mobile number as you'll receive a verification code.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">How can I recharge my mobile?</div>
+                <div class="faq-answer">Go to the 'Recharge' section in the navigation menu, select your preferred plan or enter a custom amount. You can proceed with payment using various methods like cash, credit/debit cards, net banking, or digital wallets. Once the payment is successful, your recharge will be processed instantly.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">What payment methods are available?</div>
+                <div class="faq-answer">We accept multiple payment methods for your convenience:
+                <ul>
+                    <li>Cash payments at authorized retail outlets</li>
+                    <li>Credit/debit cards (Visa, MasterCard, American Express, etc.)</li>
+                    <li>UPI payments (Google Pay, PhonePe, Paytm, etc.)</li>
+                    <li>Net Banking for all major banks</li>
+                    <li>Digital wallets like Paytm, Amazon Pay, etc.</li>
+                </ul>
+                All transactions are secured with industry-standard encryption.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">How do I receive notifications about offers?</div>
+                <div class="faq-answer">To stay updated with our latest offers and promotions:
+                <ol>
+                    <li>Go to the 'Settings' section in your profile</li>
+                    <li>Select 'Notifications Preferences'</li>
+                    <li>Choose your preferred notification channels: SMS, Email, or Push notifications</li>
+                    <li>You can also customize which types of offers you'd like to receive</li>
+                </ol>
+                We recommend enabling push notifications for instant updates about exclusive deals and time-sensitive offers.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">How can I contact customer support?</div>
+                <div class="faq-answer">We're here to help! You can reach our customer support team through multiple channels:
+                <ul>
+                    <li>Through the 'Contact' section in the app</li>
+                    <li>Send an email to 'support@mobi-comm.com'</li>
+                    <li>Call our 24/7 helpline at +91 98765 43210</li>
+                    <li>Visit any of our retail stores for in-person assistance</li>
+                    <li>Chat with our virtual assistant within the app for instant responses</li>
+                </ul>
+                Our team is available 24/7 to address your queries and concerns.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">What should I do if my recharge fails?</div>
+                <div class="faq-answer">If your recharge fails, don't worry! First, check if the amount has been deducted from your account. If it has, the recharge might process automatically within 30 minutes. If not:
+                <ol>
+                    <li>Go to 'Transaction History' in your profile</li>
+                    <li>Find the failed transaction and click on 'Report Issue'</li>
+                    <li>Our system will verify and process the recharge or refund within 24-48 hours</li>
+                </ol>
+                For immediate assistance, you can contact our customer support.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">How do I check my current plan details?</div>
+                <div class="faq-answer">To check your current plan details:
+                <ul>
+                    <li>Open the Mobi-comm app and go to the home screen</li>
+                    <li>Your active plan will be displayed with remaining data, validity, and other benefits</li>
+                    <li>For detailed information, tap on 'View Plan Details'</li>
+                    <li>You can also check your plan by dialing *123# from your registered mobile number</li>
+                </ul>
+                The app also shows recommendations for your next recharge based on your usage patterns.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer id="Contact">
+        <div class="container">
+            <h5>Contact Us</h5>
+            <div class="row justify-content-center">
+                <div class="col-md-4">
+                    <p><i class="bi bi-telephone-fill"></i> Phone: +91 98765 43210</p>
+                    <p><i class="bi bi-envelope-fill"></i> Email: support@mobi-comm.com</p>
+                    <p><i class="bi bi-geo-alt-fill"></i> Address: 123, Mobi Street, TN, India</p>
+                </div>
+                <div class="col-md-4">
+                    <p><i class="bi bi-facebook"></i> Facebook: /mobicomm</p>
+                    <p><i class="bi bi-twitter"></i> Twitter: @mobi_comm</p>
+                    <p><i class="bi bi-instagram"></i> Instagram: @mobicomm_official</p>
+                </div>
+            </div>
+            <div class="mt-4">
+                <p>&copy; 2025 Mobi-comm. All rights reserved</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // FAQ Interaction
+        document.querySelectorAll('.faq-question').forEach(item => {
+            item.addEventListener('click', () => {
+                // Toggle active class
+                item.classList.toggle('active');
+                
+                // Toggle answer visibility with animation
+                let answer = item.nextElementSibling;
+                if (answer.style.display === 'block') {
+                    answer.classList.remove('show');
+                    setTimeout(() => {
+                        answer.style.display = 'none';
+                    }, 500); // Match this with the CSS animation duration
+                } else {
+                    answer.style.display = 'block';
+                    setTimeout(() => {
+                        answer.classList.add('show');
+                    }, 10); // Small delay to ensure display:block has taken effect
+                }
+            });
+        });
+
+        // Smooth Scrolling
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute("href").substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 100,
+                            behavior: "smooth"
+                        });
+                    }
+                });
+            });
+
+            // Create floating particles
+            createParticles();
+        });
+
+        // Particle Background
+        function createParticles() {
+            const colors = ['#5680E9', '#84CEEB', '#5AB9EA', '#C1C8E4', '#8860D0'];
+            const particles = document.getElementById('particles');
+            
+            for (let i = 0; i < 25; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random properties
+                const size = Math.random() * 20 + 5;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const left = Math.random() * 100;
+                const duration = Math.random() * 20 + 10;
+                const delay = Math.random() * 10;
+                
+                // Apply styles
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.backgroundColor = color;
+                particle.style.left = `${left}%`;
+                particle.style.bottom = `-${size}px`;
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.animationDelay = `${delay}s`;
+                
+                particles.appendChild(particle);
+            }
+        }
+    </script>
+   <div class="floating-feedback" onclick="window.location.href='Feedback.html'">
+    <i class="bi bi-chat-dots"></i>
+    Share Feedback
+</div>
+
+</body>
+</html>

@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recharge</title>
+    <link rel="icon" href="./Mobi-icon.png" type="image/png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+         :root {
+            --primary-color: #5680E9;
+            --secondary-color: #8860D0;
+            --accent-color: #84CEEB;
+            --light-color: #C1C8E4;
+            --white: #FFFFFF;
+        }
+
+        body {
+    /* Creative light gradient background */
+    background: linear-gradient(120deg, #f8f9fa, #e9ecef, #dee2e6, #C1C8E4, #f8f9fa);
+    background-size: 400% 400%;
+    animation: gradientBackground 15s ease infinite;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    overflow-x: hidden;
+    padding-top: 70px;
+}
+
+        /* Enhanced Navbar and Header */
+        .navbar {
+            background-color: var(--primary-color);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .navbar-brand img {
+            height: 40px;
+            transition: transform 0.3s ease;
+        }
+
+        .navbar-brand:hover img {
+            transform: scale(1.1);
+        }
+
+        .nav-link {
+            color: var(--white) !important;
+            font-weight: 500;
+            padding: 8px 20px !important;
+            margin: 0 5px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .dropdown-menu {
+            background-color: var(--primary-color);
+            border: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .dropdown-item {
+            color: var(--white);
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-item:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: var(--white);
+        }
+        footer {
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 20px 0;
+            margin-top: 30px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-section {
+            text-align: center;
+            margin: 10px;
+        }
+
+        .footer-section h5 {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .footer-section p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        .footer-section a {
+            color: var(--white);
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            opacity: 0.8;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 15px;
+            font-size: 12px;
+        }
+          /* Animations */
+          .animate-fade-in {
+            animation: fadeIn 1s ease-in;
+        }
+
+        .animate-slide-up {
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-section {
+                margin: 10px 0;
+            }
+            
+        }
+        h1 {
+            text-align: center;
+        }
+        .container1 {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px #5680E9;
+            max-width: 400px;
+            margin: 30px auto;
+        }
+        .container1 h2 {
+            color: #5680E9;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .container1 form {
+            display: flex;
+            flex-direction: column;
+        }
+        .container1 label {
+            margin-bottom: 5px;
+        }
+        .container1 input,
+        .container1 select {
+            margin-bottom: 10px;
+            padding: 8px;
+            border: 1px solid #5AB9EA;
+            border-radius: 4px;
+        }
+        .container1 button {
+            background-color: #5680E9;
+            color: #FFFFFF;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .container1 button:hover {
+            background-color: #8860D0;
+        }
+        .plan-card {
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 2px solid transparent;
+        }
+        .plan-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(86, 128, 233, 0.4);
+            border-color: #5680E9;
+        }
+        .btn-plan {
+            background-color: #5AB9EA;
+            color: #FFFFFF;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .btn-plan:hover {
+            background-color: #8860D0;
+        }
+    </style>          
+</head>
+<body>
+    <header>
+         <!-- Enhanced Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark animate-fade-in">
+        <div class="container">
+            <a class="navbar-brand" href="MobilePrepaid.html">
+                <img src="./Mobi-icon-1.png" alt="Mobi-comm Logo" title="Mobi-comm">
+                <span>Mobi-comm</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="Recharge.html">Recharge</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="View_Plans.html">View Plans</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="NewPrepaid.html">New Prepaid</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="supportDropdown" data-bs-toggle="dropdown">
+                            Support
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="FAQs.html">FAQs</a></li>
+                            <li><a class="dropdown-item" href="Feedback.html">Feedback</a></li>
+                            <li><a class="dropdown-item" href="#Contact">Contact</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <a class="nav-link" href="account.html">
+                <i class="bi bi-person-circle" style="font-size: 24px; color: var(--white);"></i>
+            </a>
+        </div>
+    </nav>
+    </header>
+    <div class="container1">
+        <h1>Recharge</h1>
+        <form id="rechargeForm">
+            <label for="mobile"><i class="bi bi-telephone"></i> Mobile Number</label>
+            <input type="text" id="mobile" name="mobile" placeholder="Enter your mobile number" required>
+            <small id="mobile-error" style="color: red; display: none;"></small> 
+    
+            <label for="amount"><i class="bi bi-cash"></i> Amount</label>
+            <input type="number" id="amount" name="amount" min="0" placeholder="Enter the amount">
+            <small id="amount-error" style="color: red; display: none;"></small> 
+    
+            <button type="submit">Recharge Now</button>
+        </form>
+    </div>
+    
+
+
+
+    <!-- Script for Validation -->
+    <script>
+        document.getElementById('rechargeForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevents form submission and redirection
+    
+            let isValid = true;
+            const mobileInput = document.getElementById('mobile');
+            const amountInput = document.getElementById('amount');
+            const mobileError = document.getElementById('mobile-error');
+            const amountError = document.getElementById('amount-error');
+    
+            // Mobile Number Validation
+            const mobileNumber = mobileInput.value.trim();
+            if (mobileNumber.length !== 10 || isNaN(mobileNumber)) {
+                mobileError.textContent = 'Please enter a valid 10-digit mobile number';
+                mobileError.style.display = 'block';
+                isValid = false;
+            } else {
+                mobileError.style.display = 'none';
+            }
+    
+            // Amount Validation
+            const amount = amountInput.value.trim();
+            if (amount === "" || isNaN(amount) || Number(amount) <= 28) {
+                amountError.textContent = 'Oops our starting plan amount is ₹29';
+                amountError.style.display = 'block';
+                isValid = false;
+            } else {
+                amountError.style.display = 'none';
+            }
+            if (isValid) {
+            window.location.href = 'Payment.html?amount=' + amountInput.value;
+             }
+        });
+    </script>
+    
+    
+    <!-- Recharge Plans Section -->
+    <div class="container mt-4">
+        <h2 class="text-center" style="color: #5680E9;">Recharge Plans</h2>
+        <div class="row justify-content-center">
+            <!-- Row 1 -->
+            <div class="col-md-3">
+                <div class="card plan-card shadow-sm p-3">
+                    <h5 class="card-title text-center">₹99 Plan</h5>
+                    <p class="text-center">Validity: 14 Days <br> 1GB Total | 100 SMS</p>
+                    <button class="btn btn-plan w-100 select-plan" data-amount="99">Select</button>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card plan-card shadow-sm p-3">
+                    <h5 class="card-title text-center">₹199 Plan</h5>
+                    <p class="text-center">Validity: 28 Days <br> 1.5GB/Day | Unlimited Calls</p>
+                    <button class="btn btn-plan w-100 select-plan" data-amount="199">Select</button>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card plan-card shadow-sm p-3">
+                    <h5 class="card-title text-center">₹299 Plan</h5>
+                    <p class="text-center">Validity: 28 Days <br> 2GB/Day | Unlimited Calls</p>
+                    <button class="btn btn-plan w-100 select-plan" data-amount="299">Select</button>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center mt-3">
+            <!-- Row 2 -->
+            <div class="col-md-3">
+                <div class="card plan-card shadow-sm p-3">
+                    <h5 class="card-title text-center">₹399 Plan</h5>
+                    <p class="text-center">Validity: 56 Days <br> 2GB/Day | 100 SMS/Day</p>
+                    <button class="btn btn-plan w-100 select-plan" data-amount="399">Select</button>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card plan-card shadow-sm p-3">
+                    <h5 class="card-title text-center">₹499 Plan</h5>
+                    <p class="text-center">Validity: 56 Days <br> 3GB/Day | Disney+ Hotstar Free</p>
+                    <button class="btn btn-plan w-100 select-plan" data-amount="499">Select</button>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card plan-card shadow-sm p-3">
+                    <h5 class="card-title text-center">₹599 Plan</h5>
+                    <p class="text-center">Validity: 84 Days <br> 2.5GB/Day | Unlimited Calls</p>
+                    <button class="btn btn-plan w-100 select-plan" data-amount="599">Select</button>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center mt-3">
+            <!-- Row 3 -->
+            <div class="col-md-3">
+                <div class="card plan-card shadow-sm p-3">
+                    <h5 class="card-title text-center">₹799 Plan</h5>
+                    <p class="text-center">Validity: 90 Days <br> 2GB/Day | Amazon Prime Free</p>
+                    <button class="btn btn-plan w-100 select-plan" data-amount="799">Select</button>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card plan-card shadow-sm p-3">
+                    <h5 class="card-title text-center">₹999 Plan</h5>
+                    <p class="text-center">Validity: 120 Days <br> 3GB/Day | Netflix Free</p>
+                    <button class="btn btn-plan w-100 select-plan" data-amount="999">Select</button>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card plan-card shadow-sm p-3">
+                    <h5 class="card-title text-center">₹1499 Plan</h5>
+                    <p class="text-center">Validity: 365 Days <br> 2.5GB/Day | All OTT Free</p>
+                    <button class="btn btn-plan w-100 select-plan" data-amount="1499">Select</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    document.querySelectorAll(".select-plan").forEach(button => {
+        button.addEventListener("click", function(event) {
+            event.preventDefault(); 
+    
+            const amount = this.getAttribute("data-amount"); 
+            const amountInput = document.getElementById("amount");
+    
+            if (amountInput) {
+                amountInput.value = amount; 
+            }
+        });
+    });
+    </script>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h5>Contact Us</h5>
+                <p><i class="bi bi-telephone"></i> +91 98765 43210</p>
+                <p><i class="bi bi-envelope"></i> support@mobi-comm.com</p>
+            </div>
+            <div class="footer-section">
+                <h5>Quick Links</h5>
+                <p>
+                    <a href="View_Plans.html">Plans</a> | 
+                    <a href="FAQs.html">FAQs</a> | 
+                    <a href="Feedback.html">Feedback</a>
+                </p>
+            </div>
+            <div class="footer-section">
+                <h5>Download App</h5>
+                <p>
+                    <i class="bi bi-google-play"></i> Play Store | 
+                    <i class="bi bi-apple"></i> App Store
+                </p>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 Mobi-comm. All rights reserved</p>
+        </div>
+    </footer>
+    <!-- Smooth Scrolling -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute("href").substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({ behavior: "smooth" });
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    // Get amount from URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const amount = urlParams.get('amount');
+    
+    // If amount exists in URL, set it in the amount input
+    if (amount) {
+        const amountInput = document.getElementById('amount');
+        if (amountInput) {
+            amountInput.value = amount;
+        }
+    }
+
+    // Form validation and submission
+    document.getElementById('rechargeForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        let isValid = true;
+        const mobileInput = document.getElementById('mobile');
+        const amountInput = document.getElementById('amount');
+        const mobileError = document.getElementById('mobile-error');
+        const amountError = document.getElementById('amount-error');
+
+        // Mobile Number Validation
+        const mobileNumber = mobileInput.value.trim();
+        if (mobileNumber.length !== 10 || isNaN(mobileNumber)) {
+            mobileError.textContent = 'Please enter a valid 10-digit mobile number';
+            mobileError.style.display = 'block';
+            isValid = false;
+        } else {
+            mobileError.style.display = 'none';
+        }
+
+    });
+
+    // Plan selection from recharge plans section
+    document.querySelectorAll(".select-plan").forEach(button => {
+        button.addEventListener("click", function(event) {
+            event.preventDefault();
+            const amount = this.getAttribute("data-amount");
+            const amountInput = document.getElementById("amount");
+            if (amountInput) {
+                amountInput.value = amount;
+            }
+        });
+    });
+});
+    </script>
+</body>
+</html>
