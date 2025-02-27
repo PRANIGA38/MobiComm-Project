@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Feedback - Mobi-comm</title>
+    <link rel="icon" href="./Mobi-icon.png" type="image/png">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #4A90E2;
+            --secondary: #6C63FF;
+            --accent: #FF6B6B;
+            --background: #F8FAFF;
+            --text: #2C3E50;
+            --success: #2ECC71;
+            --primary-gradient-start: #4666F6;
+            --primary-gradient-end: #8C52FF;
+            --nav-gradient: linear-gradient(135deg, var(--primary-gradient-start), var(--primary-gradient-end));
+            --footer-gradient: linear-gradient(135deg, var(--primary-gradient-end), var(--primary-gradient-start));
+        }
+
+        body {
+            background: linear-gradient(135deg, rgba(108, 99, 255, 0.1) 0%, rgba(139, 127, 255, 0.1) 100%);
+            background-size: 400% 400%;
+            animation: gradientBackground 15s ease infinite;
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            padding-top: 0px;
+        }
+
+        .navbar {
+            background: var(--footer-gradient);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .navbar-brand img {
+            height: 40px;
+            transition: transform 0.3s ease;
+        }
+
+        .navbar-brand:hover img {
+            transform: scale(1.1);
+        }
+
+        .nav-link {
+            color: #fff;
+            font-weight: 500;
+            position: relative;
+            padding: 0.5rem 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .feedback-container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feedback-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        h1 {
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 2.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-control {
+            border: 2px solid #E0E5EC;
+            border-radius: 10px;
+            padding: 12px 20px;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: var(--text);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .form-icon {
+            position: absolute;
+            right: 15px;
+            top: 45px;
+            color: var(--primary);
+        }
+
+        .btn-submit {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border: none;
+            padding: 12px 30px;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            width: 100%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.3);
+        }
+
+        .feedback-status {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .success {
+            background: rgba(46, 204, 113, 0.1);
+            color: var(--success);
+            display: block;
+        }
+
+        footer {
+            background: var(--footer-gradient);
+            color: var(--text-color);
+            padding: 20px 0;
+            margin-top: 30px;
+            border-radius: 15px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-section {
+            text-align: center;
+            margin: 10px;
+        }
+
+        .footer-section h5 {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .footer-section p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        .footer-section a {
+            color: var(--white);
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            opacity: 0.8;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 15px;
+            font-size: 12px;
+        }
+
+        /* Popup Styles */
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .popup-card {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            z-index: 1001;
+            animation: popIn 0.5s ease-out;
+        }
+
+        @keyframes popIn {
+            0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        .popup-title {
+            color: #4A90E2;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .popup-message {
+            color: #2C3E50;
+            margin-bottom: 2rem;
+        }
+
+        .close-button {
+            background: linear-gradient(45deg, #4A90E2, #6C63FF);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: transform 0.2s;
+        }
+
+        .close-button:hover {
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        .footer-section {
+            margin: 10px 0;
+        }
+
+        /* Floating Particles Background */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+            }
+        }
+
+        #scrollTopBtn {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 99;
+            font-size: 24px;
+            border: none;
+            outline: none;
+            background-color: #e7551b;
+            color: white;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s;
+        }
+
+        #scrollTopBtn:hover {
+            background-color: black;
+        }
+        .error-message {
+    color: red;
+    font-size: 0.8em;
+    margin-top: 2px;
+}
+
+    </style>
+</head>
+
+<body>
+    <!-- Scroll to Top Button -->
+    <button onclick="scrollToTop()" id="scrollTopBtn" title="Go to top">↑</button>
+    
+    <!-- Particle Background -->
+    <div class="particles" id="particles"></div>
+    
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="MobilePrepaid.html">
+                <img src="./Mobi-icon-1.png" alt="Mobi-comm Logo" title="Mobi-comm">
+                <span>mobi-comm</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="Recharge.html">Recharge</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="View_Plans.html">View Plans</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="NewPrepaid.html">New Prepaid</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="supportDropdown" data-bs-toggle="dropdown">
+                            Support
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="FAQs.html">FAQs</a></li>
+                            <li><a class="dropdown-item" href="Feedback.html">Feedback</a></li>
+                            <li><a class="dropdown-item" href="#contact">Contact</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <a class="nav-link" href="account.html">
+                    <i class="bi bi-person-circle" style="font-size: 24px; color: var(--white);"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="feedback-container">
+        <h1>Share Your Feedback</h1>
+        <form id="feedbackForm">
+            <div class="form-group">
+                <label class="form-label" for="name">Your Name</label>
+                <input type="text" class="form-control" id="name">
+                <i class="bi bi-person form-icon"></i>
+                <div class="error-message" id="nameError"></div>
+            </div>
+    
+            <div class="form-group">
+                <label class="form-label" for="email">Your Email</label>
+                <input type="email" class="form-control" id="email">
+                <i class="bi bi-envelope form-icon"></i>
+                <div class="error-message" id="emailError"></div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="phone">Your Phone Number</label>
+                <input type="tel" class="form-control" id="phone">
+                <i class="bi bi-telephone form-icon"></i>
+                <div class="error-message" id="phoneError"></div>
+            </div>
+    
+            <div class="form-group">
+                <label class="form-label" for="feedback">Your Feedback</label>
+                <textarea class="form-control" id="feedback" rows="4"></textarea>
+                <i class="bi bi-pencil form-icon"></i>
+                <div class="error-message" id="feedbackError"></div>
+            </div>
+    
+            <button type="submit" class="btn-submit">
+                Submit Feedback
+                <i class="bi bi-arrow-right-circle ms-2"></i>
+            </button>
+        </form>
+    </div>
+    
+
+ <!-- Thank You Popup -->
+<div class="popup-overlay" id="thankYouPopup">
+    <div class="popup-card">
+        <div class="popup-image">
+            <img src="./thanks.gif" alt="Mobi-comm Logo" style="max-width: 100%; height: auto;">
+        </div>
+        <!-- <h2 class="popup-title">Thank You!</h2> -->
+        <p class="popup-message">Your feedback is valuable to us. We appreciate you taking the time to share your thoughts!</p>
+        <button class="close-button" onclick="closePopup()">Close</button>
+    </div>
+</div>
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h5>Contact Us</h5>
+                <p><i class="bi bi-telephone"></i> +91 98765 43210</p>
+                <p><i class="bi bi-envelope"></i> support@mobi-comm.com</p>
+            </div>
+            <div class="footer-section">
+                <h5>Quick Links</h5>
+                <p>
+                    <a href="View_Plans.html">Plans</a> |
+                    <a href="FAQs.html">FAQs</a> |
+                    <a href="Feedback.html">Feedback</a>
+                </p>
+            </div>
+            <div class="footer-section">
+                <h5>Download App</h5>
+                <p>
+                    <i class="bi bi-google-play"></i> Play Store |
+                    <i class="bi bi-apple"></i> App Store
+                </p>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 Mobi-comm. All rights reserved</p>
+        </div>
+    </footer>
+
+    <script>
+        // Form submission handler
+        document.getElementById('feedbackForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Reset error messages
+    document.getElementById('nameError').innerText = '';
+    document.getElementById('emailError').innerText = '';
+    document.getElementById('phoneError').innerText = '';
+    document.getElementById('feedbackError').innerText = '';
+
+    let isValid = true;
+
+    // Validate name
+    const nameInput = document.getElementById('name');
+    if (nameInput.value.trim() === '') {
+        document.getElementById('nameError').innerText = 'Please enter your name!';
+        isValid = false;
+    }
+
+    // Validate email
+    const emailInput = document.getElementById('email');
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (emailInput.value.trim() === '') {
+        document.getElementById('emailError').innerText = 'Please enter your email!';
+        isValid = false;
+    } else if (!emailRegex.test(emailInput.value)) {
+        document.getElementById('emailError').innerText = 'Invalid email format!';
+        isValid = false;
+    }
+
+    // Validate phone number
+    const phoneInput = document.getElementById('phone');
+    const phoneRegex = /^\d{10}$/;
+    if (phoneInput.value.trim() === '') {
+        document.getElementById('phoneError').innerText = 'Please enter your phone number!';
+        isValid = false;
+    } else if (!phoneRegex.test(phoneInput.value)) {
+        document.getElementById('phoneError').innerText = 'Invalid phone number format!';
+        isValid = false;
+    }
+
+    // Validate feedback
+    const feedbackInput = document.getElementById('feedback');
+    if (feedbackInput.value.trim() === '') {
+        document.getElementById('feedbackError').innerText = 'Please enter your feedback!';
+        isValid = false;
+    }
+
+    if (isValid) {
+        // Show the popup
+        const popup = document.getElementById('thankYouPopup');
+        popup.style.display = 'block';
+
+        // Reset the form
+        this.reset();
+    }
+});
+
+function closePopup() {
+    const popup = document.getElementById('thankYouPopup');
+    popup.style.display = 'none';
+}
+
+// Close popup when clicking outside
+document.getElementById('thankYouPopup').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closePopup();
+    }
+});
+
+
+        // Show button when scrolling down
+        window.onscroll = function() {
+            let scrollBtn = document.getElementById("scrollTopBtn");
+            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+                scrollBtn.style.display = "block";
+            } else {
+                scrollBtn.style.display = "none";
+            }
+        };
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+
+        // Smooth Scrolling
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute("href").substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 100,
+                            behavior: "smooth"
+                        });
+                    }
+                });
+            });
+
+            // Create floating particles
+            createParticles();
+        });
+
+        // Particle Background
+        function createParticles() {
+            const colors = ['#5680E9', '#84CEEB', '#5AB9EA', '#C1C8E4', '#8860D0'];
+            const particles = document.getElementById('particles');
+
+            for (let i = 0; i < 25; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+
+                // Random properties
+                const size = Math.random() * 20 + 5;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const left = Math.random() * 100;
+                const duration = Math.random() * 20 + 10;
+                const delay = Math.random() * 10;
+
+                // Apply styles
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.backgroundColor = color;
+                particle.style.left = `${left}%`;
+                particle.style.bottom = `-${size}px`;
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.animationDelay = `${delay}s`;
+
+                particles.appendChild(particle);
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Prepaid Admin Dashboard</title>
+    <link rel="icon" href="./Mobi-icon.png" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary: #4A6FFF;
+            --secondary: #FF4A76;
+            --success: #28C76F;
+            --info: #00CFE8;
+            --warning: #FF9F43;
+            --danger: #EA5455;
+            --dark: #1E1E1E;
+            --light: #F8F8F8;
+            --border: #E0E0E0;
+        }
+
+        body {
+            background-color: #F5F7FB;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .sidebar {
+            background: var(--dark);
+            color: white;
+            min-height: 100vh;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid #333;
+        }
+
+        .sidebar-header h3 {
+            color: white;
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        .sidebar-header img {
+            width: 40px;
+            margin-right: 10px;
+        }
+
+        .menu-item {
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+        }
+
+        .menu-item:hover,
+        .menu-item.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-left: 3px solid var(--primary);
+        }
+
+        .menu-item i {
+            margin-right: 15px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .card {
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1.5rem;
+        }
+
+        .user-card .card-icon {
+            background-color: rgba(74, 111, 255, 0.1);
+            color: var(--primary);
+        }
+
+        .expiry-card .card-icon {
+            background-color: rgba(255, 74, 118, 0.1);
+            color: var(--secondary);
+        }
+
+        .plans-card .card-icon {
+            background-color: rgba(40, 199, 111, 0.1);
+            color: var(--success);
+        }
+
+        .revenue-card .card-icon {
+            background-color: rgba(255, 159, 67, 0.1);
+            color: var(--warning);
+        }
+
+        .status {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-expiring {
+            background-color: rgba(255, 74, 118, 0.1);
+            color: var(--secondary);
+        }
+
+        .status-active {
+            background-color: rgba(40, 199, 111, 0.1);
+            color: var(--success);
+        }
+
+        .btn-view {
+            background-color: rgba(74, 111, 255, 0.1);
+            color: var(--primary);
+        }
+
+        .btn-view:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: -100%;
+                width: 250px;
+                z-index: 1000;
+                transition: left 0.3s;
+            }
+
+            .sidebar.show {
+                left: 0;
+            }
+
+            .content-wrapper {
+                margin-left: 0 !important;
+            }
+        }
+
+        .welcome-section {
+            padding: 20px;
+            background: linear-gradient(to right, #4a6fff, #b44aff);
+            border-radius: 10px;
+            margin-bottom: 30px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(74, 111, 255, 0.2);
+        }
+
+        .welcome-section::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .welcome-section h2 {
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .welcome-section p {
+            margin-bottom: 0;
+            opacity: 0.9;
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .quick-action-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 15px;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .quick-action-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        #scrollTopBtn {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 99;
+            font-size: 24px;
+            border: none;
+            outline: none;
+            background-color: #e7551b;
+            color: white;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s;
+        }
+
+        #scrollTopBtn:hover {
+            background-color: black;
+        }
+
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+
+        .search-result-item {
+            padding: 10px 15px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .search-result-item:hover {
+            background-color: rgba(74, 111, 255, 0.05);
+        }
+
+        .search-result-item img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .footer {
+            background-color: white;
+            padding: 15px 0;
+            text-align: center;
+            margin-top: 30px;
+            border-radius: 10px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4); 
+}
+
+.modal-content {
+    background: linear-gradient(to right, #4a6fff, #b44aff);
+            border-radius: 10px;
+    margin: 15% auto; 
+    padding: 20px;
+    border: 1px solid var(--secondary-color);
+    width: 30%; 
+}
+
+.close {
+    color: var(--danger-color);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+#confirmLogout{
+    background-color: var(--warning);
+    color: var(--text-color);
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    border: #000000 ;
+}
+
+#cancelLogout{
+    background-color: var(--warning);
+    color: var(--text-color);
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    border: #000000;
+}
+    </style>
+</head>
+
+<body>
+    <!-- Scroll to Top Button -->
+    <button onclick="scrollToTop()" id="scrollTopBtn" title="Go to top">↑</button>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-2 col-md-3 p-0 sidebar d-none d-md-block">
+                <div class="sidebar-header">
+                    <a href="MobilePrepaid.html"
+                        style="color: white; text-decoration: none; display: flex; align-items: center;">
+                        <img src="./Mobi-icon-2.png" alt="Logo">
+                        <h3>Mobi-comm</h3>
+                    </a>
+                </div>
+                <div class="sidebar-menu mt-3">
+                    <div class="menu-item active">
+                        <a href="#Dashboard" style="color: white; text-decoration: none;">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    </div>
+                    <div class="menu-item">
+                        <a href="#Subscribers" style="color: white; text-decoration: none;">
+                        <i class="fas fa-users"></i>
+                        <span>Subscribers</span>
+                    </a>
+                    </div>
+                    <div class="menu-item">
+                        <a href="#Plans" style="color: white; text-decoration: none;">
+                        <i class="fas fa-tag"></i>
+                        <span>Plans & Offers</span>
+                    </a>
+                    </div>
+                    <div class="menu-item">
+                        <a href="Analytics.html" style="color: white; text-decoration: none;">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Analytics</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a href="account.html" class="quick-action d-block" id="logout" style="color: white; text-decoration: none;" >
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </a>
+                    </div>
+                      <!-- Logout Confirmation Modal -->
+            <div id="logoutModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <p>Are you sure you want to logout?</p>
+                    <button id="confirmLogout">Yes</button>
+                    <br>
+                    <button id="cancelLogout">No</button>
+                </div>
+            </div>
+                </div>
+            </div>
+
+            <!-- Mobile sidebar toggle button -->
+            <div class="d-md-none position-fixed start-0 top-0 mt-2 ms-2 z-3">
+                <button id="sidebarToggle" class="btn btn-primary">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-10 col-md-9 ms-auto content-wrapper">
+                <div class="container-fluid p-4">
+                    <!-- Header -->
+                    <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+                        <h2>Admin Dashboard</h2>
+                        <div class="d-flex align-items-center">
+                            <img src="./admin-profile (1).png" alt="Admin Profile" class="rounded-circle me-2"
+                                style="height: 50px;">
+
+                            <div>
+                                <h6 class="mb-0">Admin User</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Welcome Section -->
+                    <div class="welcome-section fade-in mb-4">
+                        <div class="row align-items-center">
+                            <div class="col-md-7">
+                                <h2>Welcome back, Admin User!</h2>
+                                <p>Manage your subscribers, plans, and analytics here . . .</p>
+                                <div class="quick-actions">
+                                    <!-- <button class="quick-action-btn">
+                                        <i class="fas fa-user-plus me-2"></i>Add Subscriber
+                                    </button> -->
+                                    <button class="quick-action-btn"  id="add-plan-btn">
+                                        <i class="fas fa-tag me-2"></i>Add New Plan
+                                    </button>
+                                    <button class="quick-action-btn">
+                                        <i class="fas fa-download me-2"></i>Export Reports
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Search Bar -->
+                    <div class="mb-4">
+                        <div class="input-group">
+                            <input type="text" id="searchInput" class="form-control"
+                                placeholder="Search subscribers...">
+                            <button id="searchButton" class="btn btn-primary">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Dashboard Cards -->
+                    <div class="row g-4 mb-4" id="Dashboard">
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card user-card p-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon">
+                                        <i class="fas fa-users"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="mb-0">2,543</h4>
+                                        <p class="text-muted mb-0">Total Subscribers</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card expiry-card p-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon">
+                                        <i class="fas fa-clock"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="mb-0">58</h4>
+                                        <p class="text-muted mb-0">Expiring Soon</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card plans-card p-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon">
+                                        <i class="fas fa-tag"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="mb-0">32</h4>
+                                        <p class="text-muted mb-0">Active Plans</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card revenue-card p-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon">
+                                        <i class="fas fa-rupee-sign"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="mb-0">₹3.2M</h4>
+                                        <p class="text-muted mb-0">Monthly Revenue</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Expiring Subscribers Table -->
+                    <div class="card mb-4" id="Subscribers">
+                        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0" style="color: #b44aff;">Subscribers with Expiring Plans (Next 3 Days)</h5>
+                            <a href="#" class="btn btn-sm btn-primary">View All</a>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-hover mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Subscriber</th>
+                                            <th>Contact</th>
+                                            <th>Current Plan</th>
+                                            <th>Expiry</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="expiring-subscribers">
+                                        <!-- Dynamically populated with JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Plans & Offers Table -->
+                    <div class="card mb-4" id="Plans">
+                        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0" style="color: #b44aff;">Active Plans & Offers</h5>
+                            <button id="add-plan-btn" class="btn btn-sm btn-primary">+ Add New Plan</button>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-hover mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Plan Name</th>
+                                            <th>Description</th>
+                                            <th>Validity</th>
+                                            <th>Data</th>
+                                            <th>Price (₹)</th>
+                                            <th>Active Users</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="plans-table">
+                                        <!-- Dynamically populated with JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- User Details Modal -->
+        <div class="modal fade" id="user-modal" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Subscriber Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div
+                            class="d-flex flex-column flex-md-row align-items-center align-items-md-start mb-4 pb-4 border-bottom">
+                            <img src="./admin-profile (1).png" alt="User" class="user-avatar me-0 me-md-4 mb-3 mb-md-0"
+                                id="modal-user-avatar">
+                            <div class="text-center text-md-start">
+                                <h4 id="modal-user-name">Loading...</h4>
+                                <p id="modal-user-phone" class="mb-1">Loading...</p>
+                                <p id="modal-user-email" class="mb-1">Loading...</p>
+                                <p id="modal-user-address" class="mb-0">Loading...</p>
+                            </div>
+                        </div>
+                        <div>
+                            <h5 class="mb-3">Recharge History</h5>
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Plan Name</th>
+                                            <th>Amount (₹)</th>
+                                            <th>Payment Mode</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="recharge-history-table">
+                                        <!-- Dynamically populated with JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Add Plan Modal -->
+        <div class="modal fade" id="plan-modal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="plan-modal-title">Add New Plan</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="plan-form">
+                            <input type="hidden" id="plan-id">
+                            <div class="mb-3">
+                                <label for="plan-name" class="form-label">Plan Name</label>
+                                <input type="text" class="form-control" id="plan-name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="plan-description" class="form-label">Description</label>
+                                <textarea class="form-control" id="plan-description" rows="3" required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="plan-validity" class="form-label">Validity (Days)</label>
+                                <input type="number" class="form-control" id="plan-validity" min="1" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="plan-data" class="form-label">Data (GB)</label>
+                                <input type="number" class="form-control" id="plan-data" step="0.1" min="0" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="plan-price" class="form-label">Price (₹)</label>
+                                <input type="number" class="form-control" id="plan-price" min="0" step="0.01" required>
+                            </div>
+                            <div class="d-flex justify-content-end gap-2">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                    id="cancel-plan">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Save Plan</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile sidebar for smaller screens -->
+        <div class="sidebar d-md-none" id="mobileSidebar">
+            <div class="sidebar-header">
+                <img src="./Mobi-icon.png" alt="Logo">
+                <h3>Mobi-comm Admin</h3>
+            </div>
+            <div class="sidebar-menu mt-3">
+                <div class="menu-item active">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </div>
+                <div class="menu-item">
+                    <i class="fas fa-users"></i>
+                    <span>Subscribers</span>
+                </div>
+                <div class="menu-item">
+                    <i class="fas fa-tag"></i>
+                    <span>Plans & Offers</span>
+                </div>
+                <div class="menu-item">
+                    <i class="fas fa-chart-pie"></i>
+                    <span>Analytics</span>
+                </div>
+                <div class="menu-item">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </div>
+                <div class="menu-item">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Bootstrap and other scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Show button when scrolling down
+        window.onscroll = function () {
+            let scrollBtn = document.getElementById("scrollTopBtn");
+            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+                scrollBtn.style.display = "block";
+            } else {
+                scrollBtn.style.display = "none";
+            }
+        };
+
+        // Scroll to top function
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+        // Sample Data
+        const subscribers = [
+            {
+                id: 1,
+                name: 'Rahul',
+                phone: '+91 9876543210',
+                email: 'rahul.s@gmail.com',
+                address: 'salem,TN,India',
+                avatar: 'https://rb.gy/qgbtwd',
+                currentPlan: 'Unlimited 3GB/Day',
+                expiry: '2025-02-28',
+                status: 'expiring'
+            },
+            {
+                id: 2,
+                name: 'Priya',
+                phone: '+91 9876543211',
+                email: 'priya.p@yahoo.com',
+                address: 'Namakkal,TN,India',
+                avatar: 'https://rb.gy/qgbtwd',
+                currentPlan: 'Weekend Data Pack',
+                expiry: '2025-02-28',
+                status: 'expiring'
+            },
+            {
+                id: 3,
+                name: 'Aditya',
+                phone: '+91 9876543212',
+                email: 'aditya.v@outlook.com',
+                address: 'Chennai,TN,India',
+                avatar: 'https://rb.gy/qgbtwd',
+                currentPlan: 'Annual Unlimited',
+                expiry: '2025-03-01',
+                status: 'expiring'
+            },
+            {
+                id: 4,
+                name: 'Ananyah',
+                phone: '+91 9876543213',
+                email: 'ananya.s@gmail.com',
+                address: 'Hyderabad,India',
+                avatar: 'https://rb.gy/qgbtwd',
+                currentPlan: 'Super Value Pack',
+                expiry: '2025-03-01',
+                status: 'expiring'
+            },
+            {
+                id: 5,
+                name: 'Rajesh',
+                phone: '+91 9876543214',
+                email: 'rajesh.k@hotmail.com',
+                address: ' Jaipur, Rajasthan, India',
+                avatar: 'https://rb.gy/qgbtwd',
+                currentPlan: 'Family Plan',
+                expiry: '2025-03-02',
+                status: 'expiring'
+            }
+        ];
+
+        const plans = [
+            {
+                id: 1,
+                name: 'Unlimited 3GB/Day',
+                description: 'Unlimited calls, 3GB data per day, 100 SMS per day',
+                validity: 28,
+                data: 84,
+                price: 349,
+                activeUsers: 1243
+            },
+            {
+                id: 2,
+                name: 'Weekend Data Pack',
+                description: 'Unlimited data on weekends for 2 months',
+                validity: 60,
+                data: 'Unlimited on weekends',
+                price: 499,
+                activeUsers: 876
+            },
+            {
+                id: 3,
+                name: 'Annual Unlimited',
+                description: 'Yearly plan with unlimited calls, 2GB data per day',
+                validity: 365,
+                data: 730,
+                price: 2999,
+                activeUsers: 543
+            },
+            {
+                id: 4,
+                name: 'Super Value Pack',
+                description: 'Unlimited calls, 1.5GB data per day, 100 SMS per day',
+                validity: 84,
+                data: 126,
+                price: 749,
+                activeUsers: 987
+            },
+            {
+                id: 5,
+                name: 'Family Plan',
+                description: 'Connections for 4 family members with shared data pool',
+                validity: 30,
+                data: 120,
+                price: 999,
+                activeUsers: 432
+            }
+        ];
+
+        const rechargeHistory = [
+            {
+                userId: 1,
+                date: '2025-01-19',
+                planName: 'Unlimited 3GB/Day',
+                amount: 349,
+                paymentMode: 'UPI',
+                status: 'Successful'
+            },
+            {
+                userId: 1,
+                date: '2024-12-20',
+                planName: 'Super Value Pack',
+                amount: 749,
+                paymentMode: 'Credit Card',
+                status: 'Successful'
+            },
+            {
+                userId: 1,
+                date: '2024-11-21',
+                planName: 'Weekend Data Pack',
+                amount: 499,
+                paymentMode: 'Debit Card',
+                status: 'Successful'
+            },
+            {
+                userId: 1,
+                date: '2024-10-22',
+                planName: 'Unlimited 3GB/Day',
+                amount: 349,
+                paymentMode: 'Net Banking',
+                status: 'Successful'
+            },
+            {
+                userId: 2,
+                date: '2025-01-20',
+                planName: 'Weekend Data Pack',
+                amount: 499,
+                paymentMode: 'UPI',
+                status: 'Successful'
+            },
+            {
+                userId: 2,
+                date: '2024-12-21',
+                planName: 'Unlimited 3GB/Day',
+                amount: 349,
+                paymentMode: 'Debit Card',
+                status: 'Successful'
+            },
+            {
+                userId: 3,
+                date: '2024-02-19',
+                planName: 'Annual Unlimited',
+                amount: 2999,
+                paymentMode: 'Credit Card',
+                status: 'Successful'
+            }
+        ];
+
+        // DOM Elements
+        const expiringSubscribersTable = document.getElementById('expiring-subscribers');
+        const plansTable = document.getElementById('plans-table');
+        const userModal = document.getElementById('user-modal');
+        const planModal = document.getElementById('plan-modal');
+        const searchInput = document.getElementById('searchInput');
+        const searchButton = document.getElementById('searchButton');
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const mobileSidebar = document.getElementById('mobileSidebar');
+        const addPlanBtn = document.getElementById('add-plan-btn');
+        const planForm = document.getElementById('plan-form');
+
+        // Bootstrap Modal Instances
+        const userModalInstance = new bootstrap.Modal(userModal);
+        const planModalInstance = new bootstrap.Modal(planModal);
+
+        // Display expiring subscribers
+        function displayExpiringSubscribers(searchTerm = '') {
+            expiringSubscribersTable.innerHTML = '';
+
+            const filteredSubscribers = subscribers.filter(subscriber => {
+                if (!searchTerm) return true;
+                return subscriber.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    subscriber.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    subscriber.phone.includes(searchTerm);
+            });
+
+            if (filteredSubscribers.length === 0) {
+                expiringSubscribersTable.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="text-center py-3">No matching subscribers found</td>
+                    </tr>
+                `;
+                return;
+            }
+
+            filteredSubscribers.forEach(subscriber => {
+                const row = document.createElement('tr');
+
+                row.innerHTML = `
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <img src="${subscriber.avatar}" alt="${subscriber.name}" class="rounded-circle me-2" style="width: 40px; height: 40px;">
+                            <div>
+                                <div class="fw-medium">${subscriber.name}</div>
+                                <div class="small text-muted">${subscriber.email}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>${subscriber.phone}</td>
+                    <td>${subscriber.currentPlan}</td>
+                    <td>${formatDate(subscriber.expiry)}</td>
+                    <td><span class="status status-expiring">Expiring in ${getDaysUntil(subscriber.expiry)} days</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-view view-user" data-id="${subscriber.id}">View Details</button>
+                    </td>
+                `;
+
+                expiringSubscribersTable.appendChild(row);
+            });
+
+            // Add event listeners to the view buttons
+            const viewButtons = document.getElementsByClassName('view-user');
+            Array.from(viewButtons).forEach(button => {
+                button.addEventListener('click', () => {
+                    const userId = parseInt(button.getAttribute('data-id'));
+                    openUserModal(userId);
+                });
+            });
+        }
+
+        // Display plans
+        function displayPlans() {
+            plansTable.innerHTML = '';
+
+            plans.forEach(plan => {
+                const row = document.createElement('tr');
+
+                row.innerHTML = `
+                    <td class="fw-medium">${plan.name}</td>
+                    <td>${plan.description}</td>
+                    <td>${plan.validity} days</td>
+                    <td>${typeof plan.data === 'number' ? plan.data + 'GB' : plan.data}</td>
+                    <td>₹${plan.price}</td>
+                    <td>${plan.activeUsers}</td>
+                    <td>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-sm btn-primary edit-plan" data-id="${plan.id}">Edit</button>
+                            <button class="btn btn-sm btn-danger delete-plan" data-id="${plan.id}">Delete</button>
+                        </div>
+                    </td>
+                `;
+
+                plansTable.appendChild(row);
+            });
+
+            // Add event listeners to the edit buttons
+            const editButtons = document.getElementsByClassName('edit-plan');
+            Array.from(editButtons).forEach(button => {
+                button.addEventListener('click', () => {
+                    const planId = parseInt(button.getAttribute('data-id'));
+                    openPlanModal(planId);
+                });
+            });
+
+            // Add event listeners to the delete buttons
+            const deleteButtons = document.getElementsByClassName('delete-plan');
+            Array.from(deleteButtons).forEach(button => {
+                button.addEventListener('click', () => {
+                    const planId = parseInt(button.getAttribute('data-id'));
+                    deletePlan(planId);
+                });
+            });
+        }
+
+        // Search functionality
+        function handleSearch() {
+            const searchTerm = searchInput.value.trim();
+            displayExpiringSubscribers(searchTerm);
+        }
+
+        // Open user modal
+        function openUserModal(userId) {
+            const user = subscribers.find(sub => sub.id === userId);
+            if (!user) return;
+
+            document.getElementById('modal-user-avatar').src = user.avatar;
+            document.getElementById('modal-user-name').textContent = user.name;
+            document.getElementById('modal-user-phone').textContent = user.phone;
+            document.getElementById('modal-user-email').textContent = user.email;
+            document.getElementById('modal-user-address').textContent = user.address;
+
+            // Display recharge history
+            const rechargeHistoryTable = document.getElementById('recharge-history-table');
+            rechargeHistoryTable.innerHTML = '';
+
+            const userHistory = rechargeHistory.filter(history => history.userId === userId);
+
+            if (userHistory.length === 0) {
+                rechargeHistoryTable.innerHTML = '<tr><td colspan="5" class="text-center py-3">No recharge history found</td></tr>';
+            } else {
+                userHistory.forEach(history => {
+                    const row = document.createElement('tr');
+
+                    row.innerHTML = `
+                        <td>${formatDate(history.date)}</td>
+                        (history.date)}</td>
+                        <td>${history.planName}</td>
+                        <td>₹${history.amount}</td>
+                        <td>${history.paymentMode}</td>
+                        <td><span class="badge bg-success">${history.status}</span></td>
+                    `;
+
+                    rechargeHistoryTable.appendChild(row);
+                });
+            }
+            userModalInstance.show();
+        }
+
+        // Open plan modal
+        function openPlanModal(planId = null) {
+            document.getElementById('plan-modal-title').textContent = planId ? 'Edit Plan' : 'Add New Plan';
+            document.getElementById('plan-id').value = planId || '';
+
+            if (planId) {
+                const plan = plans.find(p => p.id === planId);
+                if (plan) {
+                    document.getElementById('plan-name').value = plan.name;
+                    document.getElementById('plan-description').value = plan.description;
+                    document.getElementById('plan-validity').value = plan.validity;
+                    document.getElementById('plan-data').value = typeof plan.data === 'number' ? plan.data : '';
+                    document.getElementById('plan-price').value = plan.price;
+                }
+            } else {
+                document.getElementById('plan-form').reset();
+            }
+
+            planModalInstance.show();
+        }
+
+        // Save plan
+        function savePlan(e) {
+            e.preventDefault();
+
+            const planId = document.getElementById('plan-id').value;
+            const name = document.getElementById('plan-name').value;
+            const description = document.getElementById('plan-description').value;
+            const validity = parseInt(document.getElementById('plan-validity').value);
+            const data = parseFloat(document.getElementById('plan-data').value);
+            const price = parseFloat(document.getElementById('plan-price').value);
+
+            if (planId) {
+                // Edit existing plan
+                const planIndex = plans.findIndex(p => p.id === parseInt(planId));
+                if (planIndex !== -1) {
+                    plans[planIndex] = {
+                        ...plans[planIndex],
+                        name,
+                        description,
+                        validity,
+                        data,
+                        price
+                    };
+                }
+            } else {
+                // Add new plan
+                const newPlan = {
+                    id: plans.length + 1,
+                    name,
+                    description,
+                    validity,
+                    data,
+                    price,
+                    activeUsers: 0
+                };
+
+                plans.push(newPlan);
+            }
+
+            planModalInstance.hide();
+            displayPlans();
+        }
+
+        // Delete plan
+        function deletePlan(planId) {
+            if (confirm('Are you sure you want to delete this plan?')) {
+                const planIndex = plans.findIndex(p => p.id === planId);
+                if (planIndex !== -1) {
+                    plans.splice(planIndex, 1);
+                    displayPlans();
+                }
+            }
+        }
+
+        // Utility function to format date
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString('en-IN', options);
+        }
+
+        // Utility function to calculate days until
+        function getDaysUntil(dateString) {
+            const today = new Date();
+            const targetDate = new Date(dateString);
+
+            // Set both dates to midnight for accurate day calculation
+            today.setHours(0, 0, 0, 0);
+            targetDate.setHours(0, 0, 0, 0);
+
+            const diffMs = targetDate - today;
+            const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+            return diffDays;
+        }
+
+        // Event Listeners
+        window.addEventListener('DOMContentLoaded', () => {
+            displayExpiringSubscribers();
+            displayPlans();
+
+            // Search
+            searchButton.addEventListener('click', handleSearch);
+            searchInput.addEventListener('keyup', (e) => {
+                if (e.key === 'Enter') {
+                    handleSearch();
+                }
+            });
+
+            // Sidebar Toggle for Mobile
+            sidebarToggle.addEventListener('click', () => {
+                mobileSidebar.classList.toggle('show');
+            });
+
+            // Plan Modal
+            addPlanBtn.addEventListener('click', () => openPlanModal());
+            planForm.addEventListener('submit', savePlan);
+
+            // Close mobile sidebar when clicking outside
+            document.addEventListener('click', (e) => {
+                if (mobileSidebar.classList.contains('show') &&
+                    !mobileSidebar.contains(e.target) &&
+                    e.target !== sidebarToggle) {
+                    mobileSidebar.classList.remove('show');
+                }
+            });
+        });
+         // Handle logout functionality
+         const logoutModal = document.getElementById('logoutModal');
+const logoutButton = document.getElementById('logout');
+const confirmLogoutButton = document.getElementById('confirmLogout');
+const cancelLogoutButton = document.getElementById('cancelLogout');
+const closeModal = document.getElementsByClassName('close')[0];
+
+logoutButton.addEventListener('click', function (e) {
+    e.preventDefault();
+    logoutModal.style.display = "block";
+});
+
+closeModal.onclick = function() {
+    logoutModal.style.display = "none";
+}
+
+cancelLogoutButton.onclick = function() {
+    logoutModal.style.display = "none";
+}
+
+confirmLogoutButton.onclick = function() {
+    localStorage.removeItem('userMobile');
+    window.location.href = 'MobilePrepaid.html';
+}
+
+// Close modal when clicking outside of it
+window.onclick = function(event) {
+    if (event.target == logoutModal) {
+        logoutModal.style.display = "none";
+    }
+}
+
+    </script>
+</body>
+
+</html>

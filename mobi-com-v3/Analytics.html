@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics - Mobile Prepaid Admin Dashboard</title>
+    <link rel="icon" href="./Mobi-icon.png" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary: #4A6FFF;
+            --secondary: #FF4A76;
+            --success: #28C76F;
+            --info: #00CFE8;
+            --warning: #FF9F43;
+            --danger: #EA5455;
+            --dark: #1E1E1E;
+            --light: #F8F8F8;
+            --border: #E0E0E0;
+        }
+
+        body {
+            background-color: #F5F7FB;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .sidebar {
+            background: var(--dark);
+            color: white;
+            min-height: 100vh;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid #333;
+        }
+
+        .sidebar-header h3 {
+            color: white;
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        .sidebar-header img {
+            width: 40px;
+            margin-right: 10px;
+        }
+
+        .menu-item {
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+        }
+
+        .menu-item:hover,
+        .menu-item.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-left: 3px solid var(--primary);
+        }
+
+        .menu-item i {
+            margin-right: 15px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .card {
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+            margin-bottom: 20px;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .analytics-header {
+            padding: 20px;
+            background: linear-gradient(to right, #4a6fff, #b44aff);
+            border-radius: 10px;
+            margin-bottom: 30px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(74, 111, 255, 0.2);
+        }
+
+        .analytics-header::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .analytics-header h2 {
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .analytics-header p {
+            margin-bottom: 0;
+            opacity: 0.9;
+        }
+
+        .date-filter-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .date-filter-btn {
+            background-color: #fff;
+            border: 1px solid #E0E0E0;
+            border-radius: 20px;
+            padding: 6px 15px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .date-filter-btn:hover,
+        .date-filter-btn.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .metric-card {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .metric-card .icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .metric-card h4 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .metric-card p {
+            color: #777;
+            margin-bottom: 0;
+        }
+
+        .trend-up {
+            color: var(--success);
+        }
+
+        .trend-down {
+            color: var(--danger);
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: -100%;
+                width: 250px;
+                z-index: 1000;
+                transition: left 0.3s;
+            }
+
+            .sidebar.show {
+                left: 0;
+            }
+
+            .content-wrapper {
+                margin-left: 0 !important;
+            }
+        }
+
+        #scrollTopBtn {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 99;
+            font-size: 24px;
+            border: none;
+            outline: none;
+            background-color: #e7551b;
+            color: white;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s;
+        }
+
+        #scrollTopBtn:hover {
+            background-color: black;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Scroll to Top Button -->
+    <button onclick="scrollToTop()" id="scrollTopBtn" title="Go to top">↑</button>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-2 col-md-3 p-0 sidebar d-none d-md-block">
+                <div class="sidebar-header">
+                    <a href="MobilePrepaid.html"
+                        style="color: white; text-decoration: none; display: flex; align-items: center;">
+                        <img src="./Mobi-icon-2.png" alt="Logo">
+                        <h3>Mobi-comm</h3>
+                    </a>
+                </div>
+                <div class="sidebar-menu mt-3">
+                    <div class="menu-item">
+                        <a href="Admin.html" style="color: white; text-decoration: none;">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a href="Admin.html" style="color: white; text-decoration: none;">
+                            <i class="fas fa-users"></i>
+                            <span>Subscribers</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a href="Admin.html" style="color: white; text-decoration: none;">
+                            <i class="fas fa-tag"></i>
+                            <span>Plans & Offers</span>
+                        </a>
+                    </div>
+                    <div class="menu-item active">
+                        <a href="analytics.html" style="color: white; text-decoration: none;">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Analytics</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a href="account.html" style="color: white; text-decoration: none;">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile sidebar toggle button -->
+            <div class="d-md-none position-fixed start-0 top-0 mt-2 ms-2 z-3">
+                <button id="sidebarToggle" class="btn btn-primary">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-10 col-md-9 ms-auto content-wrapper">
+                <div class="container-fluid p-4">
+                    <!-- Header -->
+                    <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+                        <h2>Analytics Dashboard</h2>
+                        <div class="d-flex align-items-center">
+                            <a href="Admin.html" style="color: black; text-decoration: none;">
+                            <img src="./admin-profile (1).png" alt="Admin Profile" class="rounded-circle me-2"
+                                style="height: 50px;">
+                            <div>
+                                <h6 class="mb-0">Admin User</h6>
+                            </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Analytics Header -->
+                    <div class="analytics-header fade-in mb-4">
+                        <div class="row align-items-center">
+                            <div class="col-md-7">
+                                <h2>Performance Insights</h2>
+                                <p>Track key metrics and analyze subscriber patterns</p>
+                            </div>
+                            <div class="col-md-5 mt-3 mt-md-0">
+                                <div class="d-flex justify-content-md-end">
+                                    <div class="date-filter-group">
+                                        <button class="date-filter-btn active" data-period="week">Week</button>
+                                        <button class="date-filter-btn" data-period="month">Month</button>
+                                        <button class="date-filter-btn" data-period="quarter">Quarter</button>
+                                        <button class="date-filter-btn" data-period="year">Year</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Key Metrics -->
+                    <div class="row g-4 mb-4">
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card metric-card">
+                                <div class="icon">
+                                    <i class="fas fa-user-plus"></i>
+                                </div>
+                                <h4>256</h4>
+                                <p>New Subscribers</p>
+                                <div class="trend trend-up">
+                                    <i class="fas fa-arrow-up"></i> 15.3%
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card metric-card">
+                                <div class="icon">
+                                    <i class="fas fa-rupee-sign"></i>
+                                </div>
+                                <h4>₹4.2L</h4>
+                                <p>Revenue</p>
+                                <div class="trend trend-up">
+                                    <i class="fas fa-arrow-up"></i> 8.7%
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card metric-card">
+                                <div class="icon">
+                                    <i class="fas fa-chart-pie"></i>
+                                </div>
+                                <h4>35%</h4>
+                                <p>Plan Renewals</p>
+                                <div class="trend trend-up">
+                                    <i class="fas fa-arrow-up"></i> 5.2%
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card metric-card">
+                                <div class="icon">
+                                    <i class="fas fa-user-clock"></i>
+                                </div>
+                                <h4>21</h4>
+                                <p>Avg. Plan Duration (days)</p>
+                                <div class="trend trend-down">
+                                    <i class="fas fa-arrow-down"></i> 2.1%
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Revenue Chart -->
+                    <div class="row mb-4">
+                        <div class="col-md-8">
+                            <div class="card h-100">
+                                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0" style="color: #b44aff;">Revenue Trends</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-container">
+                                        <canvas id="revenueChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card h-100">
+                                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0" style="color: #b44aff;">Plan Distribution</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-container">
+                                        <canvas id="planDistributionChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Subscribers & Data Usage -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0" style="color: #b44aff;">Subscriber Growth</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-container">
+                                        <canvas id="subscriberGrowthChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0" style="color: #b44aff;">Data Usage</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-container">
+                                        <canvas id="dataUsageChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Popular Plans & Geographic Distribution -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0" style="color: #b44aff;">Most Popular Plans</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Plan Name</th>
+                                                    <th>Subscribers</th>
+                                                    <th>Revenue (₹)</th>
+                                                    <th>Growth</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Unlimited 3GB/Day</td>
+                                                    <td>1,243</td>
+                                                    <td>₹4,33,807</td>
+                                                    <td><span class="trend-up"><i
+                                                                class="fas fa-arrow-up"></i> 12.3%</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Super Value Pack</td>
+                                                    <td>987</td>
+                                                    <td>₹7,39,263</td>
+                                                    <td><span class="trend-up"><i
+                                                                class="fas fa-arrow-up"></i> 8.7%</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Weekend Data Pack</td>
+                                                    <td>876</td>
+                                                    <td>₹4,37,124</td>
+                                                    <td><span class="trend-up"><i
+                                                                class="fas fa-arrow-up"></i> 5.2%</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Annual Unlimited</td>
+                                                    <td>543</td>
+                                                    <td>₹16,28,457</td>
+                                                    <td><span class="trend-down"><i
+                                                                class="fas fa-arrow-down"></i> 2.1%</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Family Plan</td>
+                                                    <td>432</td>
+                                                    <td>₹4,31,568</td>
+                                                    <td><span class="trend-up"><i
+                                                                class="fas fa-arrow-up"></i> 9.8%</span></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0" style="color: #b44aff;">Geographic Distribution</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Region</th>
+                                                    <th>Subscribers</th>
+                                                    <th>Revenue (₹)</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Tamil Nadu</td>
+                                                    <td>834</td>
+                                                    <td>₹8,24,530</td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                    <td>Maharashtra</td>
+                                                    <td>623</td>
+                                                    <td>₹6,73,840</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Karnataka</td>
+                                                    <td>518</td>
+                                                    <td>₹5,89,520</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Delhi</td>
+                                                    <td>342</td>
+                                                    <td>₹4,28,930</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Other</td>
+                                                    <td>226</td>
+                                                    <td>₹2,83,180</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mobile sidebar for smaller screens -->
+                    <div class="sidebar d-md-none" id="mobileSidebar">
+                        <div class="sidebar-header">
+                            <a href="MobilePrepaid.html"
+                                style="color: white; text-decoration: none; display: flex; align-items: center;">
+                                <img src="./Mobi-icon-2.png" alt="Logo">
+                                <h3>Mobi-comm</h3>
+                            </a>
+                        </div>
+                        <div class="sidebar-menu mt-3">
+                            <div class="menu-item">
+                                <a href="MobilePrepaid.html" style="color: white; text-decoration: none;">
+                                    <i class="fas fa-home"></i>
+                                    <span>Dashboard</span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a href="MobilePrepaid.html#Subscribers" style="color: white; text-decoration: none;">
+                                    <i class="fas fa-users"></i>
+                                    <span>Subscribers</span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a href="MobilePrepaid.html#Plans" style="color: white; text-decoration: none;">
+                                    <i class="fas fa-tag"></i>
+                                    <span>Plans & Offers</span>
+                                </a>
+                            </div>
+                            <div class="menu-item active">
+                                <a href="analytics.html" style="color: white; text-decoration: none;">
+                                    <i class="fas fa-chart-line"></i>
+                                    <span>Analytics</span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a href="account.html" style="color: white; text-decoration: none;">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    <span>Logout</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap and other scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Show button when scrolling down
+        window.onscroll = function () {
+            let scrollBtn = document.getElementById("scrollTopBtn");
+            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+                scrollBtn.style.display = "block";
+            } else {
+                scrollBtn.style.display = "none";
+            }
+        };
+
+        // Scroll to top function
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+
+        // Revenue Chart
+        function createRevenueChart() {
+            const ctx = document.getElementById('revenueChart').getContext('2d');
+            const revenueChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    datasets: [{
+                        label: 'Revenue (₹ in Lakhs)',
+                        data: [2.8, 3.1, 3.5, 3.2, 3.4, 3.7, 3.9, 4.2, 4.5, 4.8, 5.1, 5.4],
+                        backgroundColor: 'rgba(74, 111, 255, 0.1)',
+                        borderColor: '#4A6FFF',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        pointRadius: 3,
+                        pointBackgroundColor: '#4A6FFF'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                drawBorder: false,
+                                color: 'rgba(200, 200, 200, 0.2)'
+                            },
+                            ticks: {
+                                callback: function (value) {
+                                    return '₹' + value + 'L';
+                                }
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            backgroundColor: '#1E1E1E',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            titleFont: {
+                                family: 'Poppins',
+                                size: 14
+                            },
+                            bodyFont: {
+                                family: 'Poppins',
+                                size: 13
+                            },
+                            padding: 10,
+                            cornerRadius: 8,
+                            displayColors: false,
+                            callbacks: {
+                                label: function (context) {
+                                    return 'Revenue: ₹' + context.parsed.y + ' Lakhs';
+                                }
+                            }
+                        },
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
+
+        // Plan Distribution Chart
+        function createPlanDistributionChart() {
+            const ctx = document.getElementById('planDistributionChart').getContext('2d');
+            const planDistributionChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: [
+                        'Unlimited 3GB/Day',
+                        'Super Value Pack',
+                        'Weekend Data Pack',
+                        'Annual Unlimited',
+                        'Family Plan'
+                    ],
+                    datasets: [{
+                        data: [1243, 987, 876, 543, 432],
+                        backgroundColor: [
+                            '#4A6FFF',
+                            '#FF4A76',
+                            '#28C76F',
+                            '#FF9F43',
+                            '#00CFE8'
+                        ],
+                        borderColor: '#fff',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                font: {
+                                    family: 'Poppins',
+                                    size: 12
+                                },
+                                boxWidth: 12,
+                                padding: 15
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: '#1E1E1E',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            titleFont: {
+                                family: 'Poppins',
+                                size: 14
+                            },
+                            bodyFont: {
+                                family: 'Poppins',
+                                size: 13
+                            },
+                            padding: 10,
+                            cornerRadius: 8,
+                            displayColors: false,
+                            callbacks: {
+                                label: function (context) {
+                                    return context.label + ': ' + context.parsed + ' subscribers';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Subscriber Growth Chart
+        function createSubscriberGrowthChart() {
+            const ctx = document.getElementById('subscriberGrowthChart').getContext('2d');
+            const subscriberGrowthChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    datasets: [{
+                        label: 'New Subscribers',
+                        data: [120, 135, 140, 152, 168, 175, 188, 201, 220, 235, 248, 256],
+                        backgroundColor: '#4A6FFF',
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                drawBorder: false,
+                              color: 'rgba(200, 200, 200, 0.2)'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: '#1E1E1E',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            cornerRadius: 8,
+                            displayColors: false
+                        }
+                    }
+                }
+            });
+        }
+
+        // Data Usage Chart
+        function createDataUsageChart() {
+            const ctx = document.getElementById('dataUsageChart').getContext('2d');
+            const dataUsageChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    datasets: [{
+                        label: 'Data Usage (TB)',
+                        data: [5.2, 5.5, 5.8, 6.1, 6.3, 6.7, 7.0, 7.3, 7.8, 8.2, 8.5, 8.9],
+                        borderColor: '#FF4A76',
+                        backgroundColor: 'rgba(255, 74, 118, 0.1)',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        fill: true,
+                        pointRadius: 3,
+                        pointBackgroundColor: '#FF4A76'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            grid: {
+                                drawBorder: false,
+                                color: 'rgba(200, 200, 200, 0.2)'
+                            },
+                            ticks: {
+                                callback: function (value) {
+                                    return value + ' TB';
+                                }
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: '#1E1E1E',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            cornerRadius: 8,
+                            displayColors: false,
+                            callbacks: {
+                                label: function (context) {
+                                    return 'Usage: ' + context.parsed.y + ' TB';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initialize All Charts
+        document.addEventListener('DOMContentLoaded', function () {
+            createRevenueChart();
+            createPlanDistributionChart();
+            createSubscriberGrowthChart();
+            createDataUsageChart();
+
+            // Mobile sidebar toggle
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const mobileSidebar = document.getElementById('mobileSidebar');
+            
+            if (sidebarToggle) {
+                sidebarToggle.addEventListener('click', function () {
+                    mobileSidebar.classList.toggle('show');
+                });
+            }
+
+            // Date filter buttons
+            const dateFilterBtns = document.querySelectorAll('.date-filter-btn');
+            dateFilterBtns.forEach(btn => {
+                btn.addEventListener('click', function () {
+                    dateFilterBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    // Here you would update the data based on the selected period
+                    // For demonstration, we'll just show an alert
+                    alert(`Filtering data for ${this.dataset.period} view`);
+                });
+            });
+
+            // Add fade-in animations
+            const elements = document.querySelectorAll('.card');
+            elements.forEach((el, index) => {
+                setTimeout(() => {
+                    el.classList.add('fade-in');
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+
+</html>
+                              
